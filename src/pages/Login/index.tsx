@@ -1,3 +1,12 @@
-export default function Login() {
-  return <div>this is Login page</div>;
+import Footer from "components/Footer";
+import Header from "components/Header";
+import LoginForm from "components/LoginForm";
+
+export default function LoginPage() {
+  return (
+    <>
+      <Header />
+      <LoginForm />
+    </>
+  );
 }
