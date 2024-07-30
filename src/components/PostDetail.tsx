@@ -1,35 +1,51 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { PostProps } from "./PostList";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "firebaseApp";
+import Loader from "./Loader";
 
 export default function PostDetail() {
+  const { id } = useParams();
+  const [post, setPost] = useState<PostProps | null>(null);
+
+  const getPost = async (id: string) => {
+    const docRef = doc(db, "posts", id);
+    const docSnap = await getDoc(docRef);
+    setPost({ ...(docSnap.data() as PostProps), id: docSnap.id });
+  };
+
+  const handleDelete = () => {};
+
+  useEffect(() => {
+    if (id) {
+      getPost(id);
+    }
+  }, []);
+
   return (
     <div className="post__detail">
-      <div className="post__box">
-        <div className="post__title">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </div>
-        <div className="post__profile-box">
-          <div className="post__profile" />
-          <div className="post__author-name">author</div>
-          <div className="post__date">2023.07.09 화요일</div>
-        </div>
-        <div className="post__utils-box">
-          <div className="post__delete">삭제</div>
-          <div className="post__edit">
-            <Link to="/posts/edit/1">수정</Link>
+      {post ? (
+        <div className="post__box">
+          <div className="post__title">{post.title}</div>
+          <div className="post__profile-box">
+            <div className="post__profile" />
+            <div className="post__author-name">{post.email}</div>
+            <div className="post__date">{post.createdAt}</div>
           </div>
+          <div className="post__utils-box">
+            <div className="post__delete" onClick={handleDelete}>
+              삭제
+            </div>
+            <div className="post__edit">
+              <Link to={`/posts/edit/${post.id}`}>수정</Link>
+            </div>
+          </div>
+          <div className="post__text post__text--pre-wrap">{post?.content}</div>
         </div>
-        <div className="post__text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel
-          justo blandit, malesuada odio quis, mattis nisi. Aliquam vitae nisi
-          quam. Proin condimentum varius magna quis malesuada. Donec aliquet
-          aliquam mollis. Proin commodo metus in hendrerit posuere. Nullam
-          sapien massa, feugiat nec quam in, gravida porttitor nunc. Sed et
-          massa rutrum, fringilla ipsum non, placerat neque. Vestibulum ac
-          lacinia risus. Aliquam erat volutpat. Nulla nec justo magna. Nunc
-          congue nec massa vel rhoncus. Duis eget tristique velit, nec viverra
-          turpis. Nam eu ultricies mauris. Morbi vulputate eu purus in dapibus.
-        </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
