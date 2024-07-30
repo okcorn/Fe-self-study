@@ -103,7 +103,7 @@ export default function SignupForm() {
           value={passwordConfirm}
         />
       </div>
-      {error.length && (
+      {error && error.length && (
         <div className="form__block">
           <div className="form__error">{error}</div>
         </div>

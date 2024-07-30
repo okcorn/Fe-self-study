@@ -77,7 +77,7 @@ export default function LoginForm() {
           value={password}
         />
       </div>
-      {error && (
+      {error && error.length && (
         <div className="form__block">
           <div className="form__error">{error}</div>
         </div>
