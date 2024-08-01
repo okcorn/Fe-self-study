@@ -6,8 +6,6 @@ import New from "pages/Posts/New";
 import Edit from "pages/Posts/Edit";
 import Profile from "pages/Profile";
 import Login from "pages/Login";
-import Signup from "pages/Signup";
-import { useState } from "react";
 import LoginPage from "pages/Login";
 import SignupPage from "pages/Signup";
 
