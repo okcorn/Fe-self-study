@@ -19,6 +19,13 @@ type PostListProps = {
   defaultTab?: TabType;
 };
 
+export type CommentType = {
+  content: string;
+  uid: string;
+  createdAt: string;
+  email: string;
+};
+
 export type PostProps = {
   id: string;
   title: string;
@@ -29,6 +36,7 @@ export type PostProps = {
   updatedAt?: string;
   uid: string;
   category: CategoryType;
+  comments: CommentType[];
 };
 
 export type CategoryType = "FrontEnd" | "BackEnd" | "Web" | "Native";
